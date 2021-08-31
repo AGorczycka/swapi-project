@@ -1,0 +1,11 @@
+@import 'variables';
+
+.layout-container {
+    min-height: calc(100vh - 6rem);
+    padding: 3rem 2rem;
+
+    &__header {
+        font-size: $regular;
+        color: $black;
+    }
+}
