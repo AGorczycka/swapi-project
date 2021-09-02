@@ -1,0 +1,13 @@
+<mat-form-field appearance="fill">
+  <mat-label>Select resource</mat-label>
+  <mat-select [(value)]="selectedResource">
+    <mat-option *ngFor="let resource of resources" [value]="resource.value">
+      {{ resource.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<app-cards-container 
+    *ngIf="selectedResource" 
+    [dataSource]="selectedResource">
+</app-cards-container>

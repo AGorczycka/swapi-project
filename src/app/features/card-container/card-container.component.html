@@ -1,1 +1,19 @@
-<p>card-container works!</p>
+<mat-card>
+    <div *ngIf="isLoaded; else loading">
+        <!-- style! -->
+        <div *ngIf="!!cardData; else noData">
+            {{ cardTitle }} 
+            {{ cardData.name }} 
+            {{ cardData.comparableValue }}
+        </div>
+    </div>
+</mat-card>
+
+<ng-template #loading>
+    Loading...
+    <!-- add loader -->
+</ng-template>
+
+<ng-template #noData>
+    No data to display.
+</ng-template>
