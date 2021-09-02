@@ -1,8 +1,8 @@
 <ng-container *ngIf="isLoaded; else loading">
     <swapi-single-card 
         *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
-        [dataSource]="dataSource" 
         [cardId]="cardId"
+        [dataSource]="dataSource"
         (commonValueToCompare)="addComparableValue(index, $event)"
         cardTitle='Player {{ index }}'>
     </swapi-single-card >

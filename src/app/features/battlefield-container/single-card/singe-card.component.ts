@@ -1,9 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { finalize, map, retry } from 'rxjs/operators';
+import { ResourceEnum } from 'src/app/enums/resource.enum';
+import { IPerson } from 'src/app/models/IPerson';
+import { IPlanet } from 'src/app/models/IPlanet';
+import { IResult } from 'src/app/models/IResult';
+import { ISpecies } from 'src/app/models/ISpecies';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { BattlefieldContainerService } from '../battlefield-container.service';
+
+type ApiData = IPerson | IPlanet | ISpecies;
 
 @Component({
   selector: 'swapi-single-card',
@@ -12,15 +19,15 @@ import { BattlefieldContainerService } from '../battlefield-container.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SingleCardComponent implements OnInit, OnDestroy {
-  @Input() dataSource: any | null = null; //add model
   @Input() cardId: number | null = null;
   @Input() cardTitle: string | null = null;
-
+  @Input() dataSource: ResourceEnum | null = null;
+  
   @Output() commonValueToCompare: EventEmitter<string> = new EventEmitter<string>();
-
-  cardData: any | null = null; //add model
+  
+  cardData: IResult | null = null;
   isLoaded = true;
-
+  
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -39,18 +46,18 @@ export class SingleCardComponent implements OnInit, OnDestroy {
 
   private getCardData(): void {
     this.isLoaded = false;
-
+    
     const cardSubscription = this.battlefieldContainerService.getData(this.dataSource, this.cardId)
       .pipe(
         retry(1),
-        map((data: any) => this.getSufficientData(data)),
+        map((data: ApiData) => this.getSufficientData(data)),
         finalize(() => { 
           this.isLoaded = true; 
           this.changeDetection.detectChanges() 
         })
       )
       .subscribe({
-        next: (result: any) => { //add model
+        next: (result: IResult) => {
           this.cardData = result; 
           this.commonValueToCompare.emit(result.comparableValue); 
         },
@@ -61,12 +68,13 @@ export class SingleCardComponent implements OnInit, OnDestroy {
     this.subscription.add(cardSubscription); 
   }
 
-  private getSufficientData(data: any): { name: string, comparableValue: string } { // move mapper outside?
-    if (this.dataSource === 'people') { // remove magic strings here
+  //CHANGE
+  private getSufficientData(data: any): IResult { // move mapper outside?
+    if (this.dataSource === ResourceEnum.PEOPLE) {
       return { name: data.name, comparableValue: data.mass }
-    } else if (this.dataSource === 'planets') {
+    } else if (this.dataSource === ResourceEnum.PLANETS) {
       return { name: data.name, comparableValue: data.population }
-    } else if (this.dataSource === 'species') {
+    } else if (this.dataSource === ResourceEnum.SPECIES) {
       return { name: data.name, comparableValue: data.average_lifespan }
     }
   }

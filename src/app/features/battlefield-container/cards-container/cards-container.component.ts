@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { retry, tap } from 'rxjs/operators';
+import { ResourceEnum } from 'src/app/enums/resource.enum';
+import { IApiDataPage } from 'src/app/models/IApiDataPage';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { BattlefieldContainerService } from '../battlefield-container.service';
 
@@ -11,12 +13,11 @@ import { BattlefieldContainerService } from '../battlefield-container.service';
   styleUrls: ['./cards-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() dataSource: string | null = 'people'; // to service!!
-
+export class CardsContainerComponent implements OnInit, OnDestroy {
   isLoaded = true;
   battleResult: string | null = null;
-  cardIds: any = [];
+  cardIds: Array<number | null> = [];
+  dataSource: ResourceEnum | null = null;
   players: Array<{ index: number, wins: number }> = [ { index: 0, wins: 0 }, { index: 1, wins: 0 } ];
   
   private dataCount: number | null = null;
@@ -30,10 +31,7 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.getData();
-  }
-
-  ngOnChanges(): void {
+    this.getResource();
     this.getData();
   }
 
@@ -54,8 +52,8 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
 
   getData(): void {
     this.isLoaded = false;
-
-    const sub = this.battlefieldContainerService.getDataCount(this.dataSource)
+    
+    const cardsSubscription = this.battlefieldContainerService.getDataCount(this.dataSource)
     .pipe(
       retry(1),
       tap(() => {
@@ -64,7 +62,7 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
       })
     )
     .subscribe({
-      next: (result: any) => {
+      next: (result: IApiDataPage) => {
         this.dataCount = result.count;
         this.generateNumber();
       },
@@ -75,20 +73,20 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
 
-    this.subscription.add(sub);
+    this.subscription.add(cardsSubscription);
   }
 
   trackByIndex(index: number, item: number): number {
     return index; 
   }
 
-  private comparePlayerValues() {
+  private comparePlayerValues(): void {
     if (this.playerValues[0].numericValue < this.playerValues[1].numericValue) {
       this.setWinner(1);
     } else if (this.playerValues[0].numericValue > this.playerValues[1].numericValue) {
       this.setWinner(0);
     } else if (this.playerValues[0].numericValue === this.playerValues[1].numericValue) {
-      this.battleResult = `It's a tie`;
+      this.battleResult = `It's a tie.`;
     } else {
       this.battleResult = 'Insufficient data. Please, try again.';
     }
@@ -96,6 +94,19 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
 
   private generateNumber(): void {
     for (var i = 0; i < 2; i++) this.cardIds.push(Math.floor(Math.random() * this.dataCount) + 1);
+  }
+
+  private getResource(): void {
+    const resourceSubscription = this.battlefieldContainerService.resourceSubject
+      .subscribe({
+        next: (resource: ResourceEnum) => {
+          this.dataSource = resource; 
+          this.getData();
+          this.changeDetection.detectChanges();
+        }
+      });
+
+    this.subscription.add(resourceSubscription); 
   }
 
   private setWinner(winnerIndex: number): void {
