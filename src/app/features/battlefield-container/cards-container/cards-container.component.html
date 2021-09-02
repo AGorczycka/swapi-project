@@ -2,7 +2,6 @@
     <swapi-single-card 
         *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
         [cardId]="cardId"
-        [dataSource]="dataSource"
         (commonValueToCompare)="addComparableValue(index, $event)"
         cardTitle='Player {{ index }}'>
     </swapi-single-card >

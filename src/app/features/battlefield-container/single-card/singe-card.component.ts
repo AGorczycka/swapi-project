@@ -10,7 +10,7 @@ import { ISpecies } from 'src/app/models/ISpecies';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { BattlefieldContainerService } from '../battlefield-container.service';
 
-type ApiData = IPerson | IPlanet | ISpecies;
+type ApiData = IPerson & IPlanet & ISpecies;
 
 @Component({
   selector: 'swapi-single-card',
@@ -21,7 +21,7 @@ type ApiData = IPerson | IPlanet | ISpecies;
 export class SingleCardComponent implements OnInit, OnDestroy {
   @Input() cardId: number | null = null;
   @Input() cardTitle: string | null = null;
-  @Input() dataSource: ResourceEnum | null = null;
+   dataSource: ResourceEnum | null = null;
   
   @Output() commonValueToCompare: EventEmitter<string> = new EventEmitter<string>();
   
@@ -37,6 +37,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.getResource();
     this.getCardData();
   }
 
@@ -68,8 +69,19 @@ export class SingleCardComponent implements OnInit, OnDestroy {
     this.subscription.add(cardSubscription); 
   }
 
-  //CHANGE
-  private getSufficientData(data: any): IResult { // move mapper outside?
+  private getResource(): void {
+    const resourceSubscription = this.battlefieldContainerService.resourceSubject
+      .subscribe({
+        next: (resource: ResourceEnum) => {
+          this.dataSource = resource;
+          this.changeDetection.detectChanges();
+        }
+      });
+
+    this.subscription.add(resourceSubscription); 
+  }
+
+  private getSufficientData(data: ApiData): IResult {
     if (this.dataSource === ResourceEnum.PEOPLE) {
       return { name: data.name, comparableValue: data.mass }
     } else if (this.dataSource === ResourceEnum.PLANETS) {
