@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CardService } from './card.service';
 import { finalize, map, retry } from 'rxjs/operators';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
+import { BattlefieldContainerService } from '../battlefield-container.service';
 
 @Component({
   selector: 'swapi-single-card',
@@ -24,7 +24,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   constructor(
-    private cardService: CardService, 
+    private battlefieldContainerService: BattlefieldContainerService, 
     private changeDetection: ChangeDetectorRef, 
     private errorHandlingService: ErrorHandlingService
   ) { }
@@ -40,7 +40,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
   private getCardData(): void {
     this.isLoaded = false;
 
-    const cardSubscription = this.cardService.getData(this.dataSource, this.cardId)
+    const cardSubscription = this.battlefieldContainerService.getData(this.dataSource, this.cardId)
       .pipe(
         retry(1),
         map((data: any) => this.getSufficientData(data)),

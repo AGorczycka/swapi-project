@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges
 import { Subscription } from 'rxjs';
 import { retry, tap } from 'rxjs/operators';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
-import { CardsService } from './cards.service';
+import { BattlefieldContainerService } from '../battlefield-container.service';
 
 @Component({
   selector: 'swapi-cards-container',
@@ -24,7 +24,7 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   constructor(
-    private cardsService: CardsService, 
+    private battlefieldContainerService: BattlefieldContainerService, 
     private changeDetection: ChangeDetectorRef, 
     private errorHandlingService: ErrorHandlingService
   ) { }
@@ -55,7 +55,7 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
   getData(): void {
     this.isLoaded = false;
 
-    const sub = this.cardsService.getDataCount(this.dataSource)
+    const sub = this.battlefieldContainerService.getDataCount(this.dataSource)
     .pipe(
       retry(1),
       tap(() => {
