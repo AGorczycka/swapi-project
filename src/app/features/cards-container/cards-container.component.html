@@ -1,11 +1,11 @@
 <ng-container *ngIf="isLoaded; else loading">
-    <app-card-container 
+    <swapi-single-card 
         *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
         [dataSource]="dataSource" 
         [cardId]="cardId"
         (commonValueToCompare)="addComparableValue(index, $event)"
         cardTitle='Player {{ index }}'>
-    </app-card-container>
+    </swapi-single-card >
 
     <div *ngIf="battleResult">
         {{ battleResult }}
@@ -17,9 +17,11 @@
     player 1 won: {{ players[1].wins }} times
 </pre>
 
-<button (click)="getData()">(reload icon here) Play again</button>
+<button (click)="getData()">
+    <span class="material-icons">refresh</span>
+    Play again
+</button>
 
 <ng-template #loading>
-    Loading...
-    <!-- add loader -->
+    <mat-spinner></mat-spinner>
 </ng-template>

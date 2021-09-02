@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-battlefield-container',
+  selector: 'swapi-battlefield-container',
   templateUrl: './battlefield-container.component.html',
   styleUrls: ['./battlefield-container.component.scss']
 })

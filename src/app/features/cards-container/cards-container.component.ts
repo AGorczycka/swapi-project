@@ -2,10 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { retry, tap } from 'rxjs/operators';
-import { CardService } from '../card-container/card.service';
+import { ErrorHandlingService } from 'src/app/services/error-handling.service';
+import { CardsService } from './cards.service';
 
 @Component({
-  selector: 'app-cards-container',
+  selector: 'swapi-cards-container',
   templateUrl: './cards-container.component.html',
   styleUrls: ['./cards-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,7 +23,11 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
   private playerValues: Array<{ index: number, numericValue: number }> = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private cardService: CardService, private changeDetection: ChangeDetectorRef) { }
+  constructor(
+    private cardsService: CardsService, 
+    private changeDetection: ChangeDetectorRef, 
+    private errorHandlingService: ErrorHandlingService
+  ) { }
 
   ngOnInit(): void {
     this.getData();
@@ -50,7 +55,7 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
   getData(): void {
     this.isLoaded = false;
 
-    const sub = this.cardService.getDataCount(this.dataSource)
+    const sub = this.cardsService.getDataCount(this.dataSource)
     .pipe(
       retry(1),
       tap(() => {
@@ -63,7 +68,7 @@ export class CardsContainerComponent implements OnInit, OnChanges, OnDestroy {
         this.dataCount = result.count;
         this.generateNumber();
       },
-      error: (err: HttpErrorResponse) => (this.cardService.handleError(err)),
+      error: (err: HttpErrorResponse) => (this.errorHandlingService.handleError(err)),
       complete: () => {
         this.isLoaded = true;
         this.changeDetection.detectChanges();

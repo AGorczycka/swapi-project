@@ -3,14 +3,15 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { Subscription } from 'rxjs';
 import { CardService } from './card.service';
 import { finalize, map, retry } from 'rxjs/operators';
+import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 
 @Component({
-  selector: 'app-card-container',
-  templateUrl: './card-container.component.html',
-  styleUrls: ['./card-container.component.scss'],
+  selector: 'swapi-single-card',
+  templateUrl: './singe-card.component.html',
+  styleUrls: ['./singe-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardContainerComponent implements OnInit, OnDestroy {
+export class SingleCardComponent implements OnInit, OnDestroy {
   @Input() dataSource: any | null = null; //add model
   @Input() cardId: number | null = null;
   @Input() cardTitle: string | null = null;
@@ -22,7 +23,11 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private cardService: CardService, private changeDetection: ChangeDetectorRef) { }
+  constructor(
+    private cardService: CardService, 
+    private changeDetection: ChangeDetectorRef, 
+    private errorHandlingService: ErrorHandlingService
+  ) { }
 
   ngOnInit(): void {
     this.getCardData();
@@ -49,7 +54,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
           this.cardData = result; 
           this.commonValueToCompare.emit(result.comparableValue); 
         },
-        error: (err: HttpErrorResponse) => (this.cardService.handleError(err)),
+        error: (err: HttpErrorResponse) => (this.errorHandlingService.handleError(err)),
         complete: () => (this.changeDetection.detectChanges())
       });
 
