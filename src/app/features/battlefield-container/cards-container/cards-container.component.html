@@ -2,10 +2,10 @@
     <div class="card-container">
         <swapi-single-card 
             *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
-            [cardId]="cardId"
             class="card-container__single-card"
-            (commonValueToCompare)="addComparableValue(index, $event)"
             cardTitle='Player {{ index + 1 }}'
+            [cardId]="cardId"
+            (commonValueToCompare)="addComparableValue(index, $event)"
             (isCardLoaded)="isCardLoaded($event)">
         </swapi-single-card>
     </div>
