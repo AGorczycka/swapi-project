@@ -25,3 +25,15 @@ body {
 .mat-form-field-appearance-fill .mat-form-field-flex {
     background-color: $white;
 }
+
+// Loader styles
+
+.spinner {
+    &__main {
+        margin: 3rem auto;
+    }
+
+    &__small {
+        transform: scale(0.5);
+    }
+}
