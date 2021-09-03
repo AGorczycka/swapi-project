@@ -1,0 +1,18 @@
+@import 'variables';
+@import 'mixins';
+
+.card {
+    @include flex-center;
+
+    flex-direction: column;
+    background: $light-gray;
+    min-height: 15rem;
+
+    &__header {
+        justify-content: center;
+    }
+}
+
+.no-data {
+    font-size: $regular;
+}

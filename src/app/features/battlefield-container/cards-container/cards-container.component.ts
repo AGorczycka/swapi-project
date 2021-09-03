@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { retry, tap } from 'rxjs/operators';
 import { ResourceEnum } from 'src/app/enums/resource.enum';
@@ -14,6 +14,9 @@ import { BattlefieldContainerService } from '../battlefield-container.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsContainerComponent implements OnInit, OnDestroy {
+  
+  @Output() areCardsLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   isLoaded = true;
   battleResult: string | null = null;
   cardIds: Array<number | null> = [];
@@ -52,6 +55,7 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
 
   getData(): void {
     this.isLoaded = false;
+    this.areCardsLoaded.emit(this.isLoaded);
     
     const cardsSubscription = this.battlefieldContainerService.getDataCount(this.dataSource)
     .pipe(
@@ -69,11 +73,17 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
       error: (err: HttpErrorResponse) => (this.errorHandlingService.handleError(err)),
       complete: () => {
         this.isLoaded = true;
+        this.areCardsLoaded.emit(this.isLoaded);
         this.changeDetection.detectChanges();
       }
     });
 
     this.subscription.add(cardsSubscription);
+  }
+
+  getPlayerWins(playerId: number): string {
+    const playerWins = this.players[playerId].wins;
+    return `Player ${playerId} won: ${playerWins} ${playerWins === 1 ? 'time' : 'times'}.`
   }
 
   trackByIndex(index: number, item: number): number {

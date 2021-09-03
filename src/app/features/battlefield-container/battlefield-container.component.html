@@ -1,6 +1,6 @@
-<mat-form-field appearance="fill">
-  <mat-label>Select resource</mat-label>
-  <mat-select [(value)]="selectedResource" (selectionChange)="setNewResource()">
+<mat-form-field appearance="fill" class="resource-select">
+  <mat-label class="resource-select__label">Select resource</mat-label>
+  <mat-select [(value)]="selectedResource" (selectionChange)="setNewResource()" [disabled]="!isSelectEnabled">
     <mat-option *ngFor="let resource of resources" [value]="resource.value">
       {{ resource.name | uppercase }}
     </mat-option>
@@ -8,5 +8,6 @@
 </mat-form-field>
 
 <swapi-cards-container 
-    *ngIf="selectedResource">
+    *ngIf="selectedResource"
+    (areCardsLoaded)="enableSelect($event)">
 </swapi-cards-container>

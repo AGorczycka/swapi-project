@@ -14,6 +14,7 @@ import { BattlefieldContainerService } from './battlefield-container.service';
 })
 export class BattlefieldContainerComponent implements OnInit {
 
+  isSelectEnabled = false;
   resources: Array<IDictionary> = RESOURCES;
   selectedResource: string = ResourceEnum.PEOPLE;
 
@@ -21,6 +22,10 @@ export class BattlefieldContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.setResource();
+  }
+
+  enableSelect(areCardsLoaded: boolean): void {
+    this.isSelectEnabled = areCardsLoaded;
   }
 
   setNewResource(): void {

@@ -1,26 +1,31 @@
 <ng-container *ngIf="isLoaded; else loading">
-    <swapi-single-card 
-        *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
-        [cardId]="cardId"
-        (commonValueToCompare)="addComparableValue(index, $event)"
-        cardTitle='Player {{ index }}'>
-    </swapi-single-card >
+    <div class="card-container">
+        <swapi-single-card 
+            *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
+            [cardId]="cardId"
+            class="card-container__single-card"
+            (commonValueToCompare)="addComparableValue(index, $event)"
+            cardTitle='Player {{ index }}'>
+        </swapi-single-card>
+    </div>
 
-    <div *ngIf="battleResult">
+    <div *ngIf="battleResult" class="result">
         {{ battleResult }}
     </div>
 </ng-container>
 
-<pre>
-    player 0 won: {{ players[0].wins }} times
-    player 1 won: {{ players[1].wins }} times
-</pre>
-
-<button (click)="getData()">
-    <span class="material-icons">refresh</span>
-    Play again
-</button>
+<div class="card-container__information">
+    <span *ngFor="let player of players">
+        {{ getPlayerWins(player.index) }}
+    </span>
+    
+    <button mat-stroked-button color="primary" class="button" (click)="getData()" [disabled]="!isLoaded">
+        <span class="material-icons button__icon">refresh</span>
+        Play again
+    </button>
+</div>
 
 <ng-template #loading>
     <mat-spinner></mat-spinner>
+    <!-- move to shared -->
 </ng-template>
