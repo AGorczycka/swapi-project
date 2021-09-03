@@ -86,7 +86,9 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
 
   getPlayerWins(playerId: number): string {
     const playerWins = this.players[playerId].wins;
-    return `Player ${playerId} won: ${playerWins} ${playerWins === 1 ? 'time' : 'times'}.`
+    const readableWinnerId = playerId + 1;
+
+    return `Player ${readableWinnerId} won: ${playerWins} ${playerWins === 1 ? 'time' : 'times'}.`
   }
 
   isCardLoaded(isLoaded: boolean): boolean {
@@ -115,6 +117,7 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
 
   private generateNumber(): void {
     const numberOfPlayers = 2;
+    
     for (var i = 0; i < numberOfPlayers; i++) this.cardIds.push(Math.floor(Math.random() * this.dataCount) + 1);
   }
 
@@ -132,7 +135,9 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
   }
 
   private setWinner(winnerIndex: number): void {
-    this.battleResult = `Player ${this.playerValues[winnerIndex].index} wins!`;
+    const readableWinnerId = this.playerValues[winnerIndex].index + 1;
+    
+    this.battleResult = `Player ${readableWinnerId} wins!`;
     this.players.find(player => player.index === this.playerValues[winnerIndex].index).wins++;
   }
 
