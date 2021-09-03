@@ -1,17 +1,17 @@
 import { ResourceEnum } from "../enums/resource.enum";
 import { IDictionary } from "../models/IDictionary";
 
-export const RESOURCES: Array<IDictionary> = [
+export const COMPARABLE_VALUES: Array<IDictionary> = [
     { 
         name: ResourceEnum.PEOPLE, 
-        value: ResourceEnum.PEOPLE 
+        value: 'mass'
     },
     { 
         name: ResourceEnum.PLANETS,
-        value: ResourceEnum.PLANETS
+        value: 'population'
     },
     { 
         name: ResourceEnum.SPECIES,
-        value: ResourceEnum.SPECIES
+        value: 'average_lifespan'
     },
 ];

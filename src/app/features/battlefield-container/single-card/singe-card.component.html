@@ -6,7 +6,7 @@
               <mat-card-subtitle>{{ cardData.name }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                {{ cardData.comparableValue }}
+                {{ dataSourceComparableValue + ': ' + cardData.comparableValue | uppercase}}
             </mat-card-content>
         </ng-container>
     </ng-container>

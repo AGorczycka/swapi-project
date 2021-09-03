@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { finalize, map, retry } from 'rxjs/operators';
+import { COMPARABLE_VALUES } from 'src/app/data/dictionary-comparable-values';
 import { ResourceEnum } from 'src/app/enums/resource.enum';
 import { IPerson } from 'src/app/models/IPerson';
 import { IPlanet } from 'src/app/models/IPlanet';
@@ -21,14 +22,18 @@ type ApiData = IPerson & IPlanet & ISpecies;
 export class SingleCardComponent implements OnInit, OnDestroy {
   @Input() cardId: number | null = null;
   @Input() cardTitle: string | null = null;
-   dataSource: ResourceEnum | null = null;
   
-  @Output() commonValueToCompare: EventEmitter<string> = new EventEmitter<string>();
+  @Output() private commonValueToCompare: EventEmitter<string> = new EventEmitter<string>();
   
   cardData: IResult | null = null;
   isLoaded = true;
   
+  private dataSource: ResourceEnum | null = null;
   private subscription: Subscription = new Subscription();
+
+  get dataSourceComparableValue(): string {
+    return COMPARABLE_VALUES.find(value => value.name === this.dataSource).value;
+  }
 
   constructor(
     private battlefieldContainerService: BattlefieldContainerService, 
@@ -53,8 +58,8 @@ export class SingleCardComponent implements OnInit, OnDestroy {
         retry(1),
         map((data: ApiData) => this.getSufficientData(data)),
         finalize(() => { 
-          this.isLoaded = true; 
-          this.changeDetection.detectChanges() 
+          this.isLoaded = true;
+          this.changeDetection.detectChanges();
         })
       )
       .subscribe({
@@ -82,13 +87,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
   }
 
   private getSufficientData(data: ApiData): IResult {
-    if (this.dataSource === ResourceEnum.PEOPLE) {
-      return { name: data.name, comparableValue: data.mass }
-    } else if (this.dataSource === ResourceEnum.PLANETS) {
-      return { name: data.name, comparableValue: data.population }
-    } else if (this.dataSource === ResourceEnum.SPECIES) {
-      return { name: data.name, comparableValue: data.average_lifespan }
-    }
+    return { name: data.name, comparableValue: data[this.dataSourceComparableValue] }
   }
 
 }

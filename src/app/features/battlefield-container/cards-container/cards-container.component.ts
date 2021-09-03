@@ -45,7 +45,7 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
   addComparableValue(index: number, value: string): void {
     const numericValue = parseFloat(value.replace(',', ''));
     this.playerValues.push({ index, numericValue });
-
+    
     if (this.playerValues.length === this.cardIds.length) {
       this.comparePlayerValues();
     }
