@@ -1,4 +1,4 @@
-<mat-card class="card">
+<mat-card class="card"> {{isLoaded}}
     <ng-container *ngIf="isLoaded; else loading">
         <ng-container *ngIf="!!cardData; else noData">
             <mat-card-header class="card__header">

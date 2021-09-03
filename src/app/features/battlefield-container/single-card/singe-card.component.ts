@@ -26,7 +26,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
   @Output() private commonValueToCompare: EventEmitter<string> = new EventEmitter<string>();
   
   cardData: IResult | null = null;
-  isLoaded = true;
+  isLoaded = false;
   
   private dataSource: ResourceEnum | null = null;
   private subscription: Subscription = new Subscription();
@@ -57,7 +57,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
       .pipe(
         retry(1),
         map((data: ApiData) => this.getSufficientData(data)),
-        finalize(() => { 
+        finalize(() => {
           this.isLoaded = true;
           this.changeDetection.detectChanges();
         })
@@ -66,6 +66,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
         next: (result: IResult) => {
           this.cardData = result; 
           this.commonValueToCompare.emit(result.comparableValue); 
+          
         },
         error: (err: HttpErrorResponse) => (this.errorHandlingService.handleError(err)),
         complete: () => (this.changeDetection.detectChanges())
