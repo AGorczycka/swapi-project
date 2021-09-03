@@ -17,7 +17,8 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
   
   @Output() areCardsLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  isLoaded = true;
+  isLoaded = false;
+  areBothCardsLoaded = false;
   battleResult: string | null = null;
   cardIds: Array<number | null> = [];
   dataSource: ResourceEnum | null = null;
@@ -55,6 +56,8 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
 
   getData(): void {
     this.isLoaded = false;
+    this.areBothCardsLoaded = false;
+    this.battleResult = 'Insufficient data. Please, try again.';
     this.areCardsLoaded.emit(this.isLoaded);
     
     const cardsSubscription = this.battlefieldContainerService.getDataCount(this.dataSource)
@@ -86,16 +89,24 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
     return `Player ${playerId} won: ${playerWins} ${playerWins === 1 ? 'time' : 'times'}.`
   }
 
+  isCardLoaded(isLoaded: boolean): boolean {
+    this.areBothCardsLoaded = isLoaded;
+    return isLoaded;
+  }
+
   trackByIndex(index: number, item: number): number {
     return index; 
   }
 
   private comparePlayerValues(): void {
-    if (this.playerValues[0].numericValue < this.playerValues[1].numericValue) {
-      this.setWinner(1);
-    } else if (this.playerValues[0].numericValue > this.playerValues[1].numericValue) {
-      this.setWinner(0);
-    } else if (this.playerValues[0].numericValue === this.playerValues[1].numericValue) {
+    const player0 = this.players.find(player => player.index === 0).index;
+    const player1 = this.players.find(player => player.index === 1).index;
+
+    if (this.playerValues[player0].numericValue < this.playerValues[player1].numericValue) {
+      this.setWinner(player1);
+    } else if (this.playerValues[player0].numericValue > this.playerValues[player1].numericValue) {
+      this.setWinner(player0);
+    } else if (this.playerValues[player0].numericValue === this.playerValues[player1].numericValue) {
       this.battleResult = `It's a tie.`;
     } else {
       this.battleResult = 'Insufficient data. Please, try again.';
@@ -103,7 +114,8 @@ export class CardsContainerComponent implements OnInit, OnDestroy {
   }
 
   private generateNumber(): void {
-    for (var i = 0; i < 2; i++) this.cardIds.push(Math.floor(Math.random() * this.dataCount) + 1);
+    const numberOfPlayers = 2;
+    for (var i = 0; i < numberOfPlayers; i++) this.cardIds.push(Math.floor(Math.random() * this.dataCount) + 1);
   }
 
   private getResource(): void {

@@ -5,11 +5,12 @@
             [cardId]="cardId"
             class="card-container__single-card"
             (commonValueToCompare)="addComparableValue(index, $event)"
-            cardTitle='Player {{ index }}'>
+            cardTitle='Player {{ index }}'
+            (isCardLoaded)="isCardLoaded($event)">
         </swapi-single-card>
     </div>
-
-    <span class="result">{{ battleResult }}</span>
+    
+    <span *ngIf="areBothCardsLoaded" class="result">{{ battleResult }}</span>
 </ng-container>
 
 <div class="card-container__information">

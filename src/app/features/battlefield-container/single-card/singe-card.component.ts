@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { finalize, map, retry } from 'rxjs/operators';
 import { COMPARABLE_VALUES } from 'src/app/data/dictionary-comparable-values';
 import { ResourceEnum } from 'src/app/enums/resource.enum';
+import { ValuesEnum } from 'src/app/enums/values.enum';
 import { IPerson } from 'src/app/models/IPerson';
 import { IPlanet } from 'src/app/models/IPlanet';
 import { IResult } from 'src/app/models/IResult';
@@ -24,9 +25,11 @@ export class SingleCardComponent implements OnInit, OnDestroy {
   @Input() cardTitle: string | null = null;
   
   @Output() private commonValueToCompare: EventEmitter<string> = new EventEmitter<string>();
+  @Output() private isCardLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
   
   cardData: IResult | null = null;
   isLoaded = false;
+  ValuesEnum = ValuesEnum;
   
   private dataSource: ResourceEnum | null = null;
   private subscription: Subscription = new Subscription();
@@ -52,6 +55,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
 
   private getCardData(): void {
     this.isLoaded = false;
+    this.isCardLoaded.emit(this.isLoaded);
     
     const cardSubscription = this.battlefieldContainerService.getData(this.dataSource, this.cardId)
       .pipe(
@@ -59,6 +63,7 @@ export class SingleCardComponent implements OnInit, OnDestroy {
         map((data: ApiData) => this.getSufficientData(data)),
         finalize(() => {
           this.isLoaded = true;
+          this.isCardLoaded.emit(this.isLoaded);
           this.changeDetection.detectChanges();
         })
       )
