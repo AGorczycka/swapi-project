@@ -1,5 +1,5 @@
 export enum ResourceEnum {
-    PEOPLE = 'people',
-    PLANETS = 'planets',
-    SPECIES = 'species'
+  PEOPLE = 'people',
+  PLANETS = 'planets',
+  SPECIES = 'species'
 }

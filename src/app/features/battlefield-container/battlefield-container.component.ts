@@ -28,11 +28,7 @@ export class BattlefieldContainerComponent implements OnInit {
     this.isSelectEnabled = areCardsLoaded;
   }
 
-  setNewResource(): void {
-    this.setResource();
-  }
-
-  private setResource(): void {
+  setResource(): void {
     this.battlefieldContainerService.setResourceValue(this.selectedResource);
   }
 }

@@ -2,38 +2,38 @@
 @import 'variables';
 
 * {
-    box-sizing: border-box; 
+  box-sizing: border-box; 
 }
 
 html, body { 
-    height: 100%; 
-    font-size: 10px; 
+  height: 100%; 
+  font-size: 10px; 
 }
 
 body { 
-    margin: 0; 
-    font-family: 'Raleway', sans-serif;
+  margin: 0; 
+  font-family: 'Raleway', sans-serif;
 }
 
 .card__header {
-    .mat-card-header-text {
-        @include flex-center;
-        flex-direction: column;
-    }
+  .mat-card-header-text {
+      @include flex-center;
+      flex-direction: column;
+  }
 }
 
 .mat-form-field-appearance-fill .mat-form-field-flex {
-    background-color: $white;
+  background-color: $white;
 }
 
 // Loader styles
 
 .spinner {
-    &__main {
-        margin: 3rem auto;
-    }
+  &__main {
+      margin: 3rem auto;
+  }
 
-    &__small {
-        transform: scale(0.5);
-    }
+  &__small {
+    transform: scale(0.5);
+  }
 }

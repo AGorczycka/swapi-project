@@ -2,47 +2,47 @@
 @import 'variables';
 
 .card-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 2rem auto;
-    max-width: 50rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 50rem;
 
-    &__single-card {
-        max-width: 20rem;
-        width: 100%;
-        margin: 2rem 0;
+  &__single-card {
+    max-width: 20rem;
+    width: 100%;
+    margin: 2rem 0;
+  }
+
+  &__information {
+    @include flex-center;
+
+    flex-direction: column;
+    margin: 2rem;
+    
+    span {
+      font-size: $regular;
+      padding: 0.3rem;
     }
+  }
 
-    &__information {
-        @include flex-center;
-
-        flex-direction: column;
-        margin: 2rem;
-        
-        span {
-            font-size: $regular;
-            padding: 0.3rem;
-        }
-    }
-
-    @media only screen and (max-width: 500px) {
-        flex-direction: column;
-    }
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+  }
 }
 
 .button {
-    padding: 0 2rem;
-    margin-top: 3rem;
+  padding: 0 2rem;
+  margin-top: 3rem;
 
-    &__icon {
-        font-size: 1.8rem; 
-    }
+  &__icon {
+    font-size: 1.8rem; 
+  }
 }
 
 .result {
-    @include flex-center;
+  @include flex-center;
 
-    font-size: $large;
-    padding: 1rem;
+  font-size: $large;
+  padding: 1rem;
 }

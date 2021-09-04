@@ -2,17 +2,17 @@
 @import 'mixins';
 
 .card {
-    @include flex-center;
+  @include flex-center;
 
-    flex-direction: column;
-    background: $light-gray;
-    min-height: 15rem;
+  flex-direction: column;
+  background: $light-gray;
+  min-height: 15rem;
 
-    &__header {
-        justify-content: center;
-    }
+  &__header {
+    justify-content: center;
+  }
 }
 
 .no-data {
-    font-size: $regular;
+  font-size: $regular;
 }

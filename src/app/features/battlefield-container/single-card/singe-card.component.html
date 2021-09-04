@@ -1,21 +1,21 @@
 <mat-card class="card">
-    <ng-container *ngIf="isLoaded; else loading">
-        <ng-container *ngIf="!!cardData; else noData">
-            <mat-card-header class="card__header">
-              <mat-card-title>{{ cardTitle }} </mat-card-title>
-              <mat-card-subtitle>{{ cardData.name }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                {{ ValuesEnum[(dataSourceComparableValue | uppercase)] + ': ' + cardData.comparableValue }}
-            </mat-card-content>
-        </ng-container>
+  <ng-container *ngIf="isLoaded; else loading">
+    <ng-container *ngIf="!!cardData; else noData">
+      <mat-card-header class="card__header">
+        <mat-card-title>{{ cardTitle }} </mat-card-title>
+        <mat-card-subtitle>{{ cardData.name }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        {{ ValuesEnum[(dataSourceComparableValue | uppercase)] + ': ' + cardData.comparableValue }}
+      </mat-card-content>
     </ng-container>
+  </ng-container>
 </mat-card>
 
 <ng-template #loading>
-    <mat-spinner class="spinner__small" color="accent"></mat-spinner>
+  <mat-spinner class="spinner__small" color="accent"></mat-spinner>
 </ng-template>
 
 <ng-template #noData>
-    <span class="no-data">No data to display.</span>
+  <span class="no-data">No data to display.</span>
 </ng-template>

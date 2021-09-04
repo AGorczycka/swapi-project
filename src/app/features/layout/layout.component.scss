@@ -2,15 +2,15 @@
 @import 'mixins';
 
 .layout-container {
-    @include flex-center;
-    @include starry-background;
+  @include flex-center;
+  @include starry-background;
 
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 3rem 2rem;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 3rem 2rem;
 
-    &__header {
-        color: $banana-yellow;
-        letter-spacing: 3px;
-    }
+  &__header {
+    color: $banana-yellow;
+    letter-spacing: 3px;
+  }
 }

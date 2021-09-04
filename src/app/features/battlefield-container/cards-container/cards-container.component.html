@@ -1,29 +1,29 @@
 <ng-container *ngIf="isLoaded; else loading">
-    <div class="card-container">
-        <swapi-single-card 
-            *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
-            class="card-container__single-card"
-            cardTitle='Player {{ index + 1 }}'
-            [cardId]="cardId"
-            (commonValueToCompare)="addComparableValue(index, $event)"
-            (isCardLoaded)="isCardLoaded($event)">
-        </swapi-single-card>
-    </div>
+  <div class="card-container">
+    <swapi-single-card 
+      *ngFor="let cardId of cardIds; index as index; trackBy: trackByIndex"
+      class="card-container__single-card"
+      cardTitle='Player {{ index + 1 }}'
+      [cardId]="cardId"
+      (commonValueToCompare)="addComparableValue(index, $event)"
+      (isCardLoaded)="isCardLoaded($event)">
+    </swapi-single-card>
+  </div>
     
-    <span *ngIf="areBothCardsLoaded" class="result">{{ battleResult }}</span>
+  <span *ngIf="areBothCardsLoaded" class="result">{{ battleResult }}</span>
 </ng-container>
 
 <div class="card-container__information">
-    <span *ngFor="let player of players">
-        {{ getPlayerWins(player.index) }}
-    </span>
+  <span *ngFor="let player of players">
+    {{ getPlayerWins(player.index) }}
+  </span>
     
-    <button mat-stroked-button color="primary" class="button" (click)="getData()" [disabled]="!isLoaded">
-        <span class="material-icons button__icon">refresh</span>
-        Play again
-    </button>
+  <button mat-stroked-button color="primary" class="button" (click)="getData()" [disabled]="!isLoaded">
+    <span class="material-icons button__icon">refresh</span>
+    Play again
+  </button>
 </div>
 
 <ng-template #loading>
-    <mat-spinner class="spinner__main"></mat-spinner>
+  <mat-spinner class="spinner__main"></mat-spinner>
 </ng-template>

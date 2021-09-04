@@ -1,6 +1,6 @@
 <mat-form-field appearance="fill" class="resource-select">
   <mat-label class="resource-select__label">Select resource</mat-label>
-  <mat-select [(value)]="selectedResource" (selectionChange)="setNewResource()" [disabled]="!isSelectEnabled">
+  <mat-select [(value)]="selectedResource" (selectionChange)="setResource()" [disabled]="!isSelectEnabled">
     <mat-option *ngFor="let resource of resources" [value]="resource.value">
       {{ resource.name | uppercase }}
     </mat-option>

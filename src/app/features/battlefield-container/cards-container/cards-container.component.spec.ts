@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 
 import { CardsContainerComponent } from './cards-container.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
+import { By } from '@angular/platform-browser';
 
 describe('BattlefieldContainerComponent', () => {
   let component: CardsContainerComponent;
@@ -27,11 +28,23 @@ describe('BattlefieldContainerComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create mat-spinner', () => {
+    fixture.debugElement.query(By.directive(MatSpinner)).nativeElement;
+    expect(MatSpinner).toBeTruthy();
+  });
+
+  it('should call getData method on button click', () => {
+    const onClickMock = spyOn(component, 'getData' as never);
+    fixture.debugElement.query(By.css('button')).triggerEventHandler('click', null);
+    expect(onClickMock).toHaveBeenCalled();
+  });
+
 });

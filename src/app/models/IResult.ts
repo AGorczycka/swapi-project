@@ -1,4 +1,4 @@
 export interface IResult { 
-    name: string;
-    comparableValue: string;
+  name: string;
+  comparableValue: string;
 }

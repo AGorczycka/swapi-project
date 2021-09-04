@@ -3,8 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient } from '@angular/common/http';
 
 import { SingleCardComponent } from './singe-card.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
+import { MatCard, MatCardModule, MatCardTitle } from '@angular/material/card';
+import { By } from '@angular/platform-browser';
 
 describe('SingleCardComponent', () => {
   let component: SingleCardComponent;
@@ -29,11 +30,26 @@ describe('SingleCardComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create mat-spinner', () => {
+    fixture.debugElement.query(By.directive(MatSpinner)).nativeElement;
+    expect(MatSpinner).toBeTruthy();
+  });
+
+  it('should create mat-card', () => {
+    fixture.debugElement.query(By.directive(MatCard)).nativeElement;
+    expect(MatCard).toBeTruthy();
+  });
+
+  it('should not have mat-card-title at the beginning', () => {
+    expect(fixture.debugElement.query(By.directive(MatCardTitle))).toBeNull();
+  });
+
 });

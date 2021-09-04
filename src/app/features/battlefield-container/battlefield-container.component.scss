@@ -1,19 +1,19 @@
 @import 'variables';
 
 :host {
-    background: $white;
-    border-radius: 10px;
-    max-width: 80rem;
-    width: 100%;
-    padding: 2rem;
+  background: $white;
+  border-radius: 10px;
+  max-width: 80rem;
+  width: 100%;
+  padding: 2rem;
 }
 
 .resource-select {
-    max-width: 15rem;
-    display: block;
-    margin: 0 auto;
+  max-width: 15rem;
+  display: block;
+  margin: 0 auto;
 
-    &__label {
-        font-size: $small;
-    }
+  &__label {
+    font-size: $small;
+  }
 }

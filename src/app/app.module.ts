@@ -7,8 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from './features/layout/layout.module';
 
-//separate to modules
-
 @NgModule({
   declarations: [
     AppComponent
