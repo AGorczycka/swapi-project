@@ -42,9 +42,54 @@ describe('BattlefieldContainerComponent', () => {
   });
 
   it('should call getData method on button click', () => {
-    const onClickMock = spyOn(component, 'getData' as never);
+    const onClickMock = spyOn(component, 'getData');
+
     fixture.debugElement.query(By.css('button')).triggerEventHandler('click', null);
+
     expect(onClickMock).toHaveBeenCalled();
+  });
+
+  it("should get data on init", () => {
+    const spy = spyOn(component, "getData");
+
+    component.ngOnInit();
+    
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should add comparable value', () => {
+    const param: { index: number, value: string } = { index: 0, value: '212' };
+
+    spyOn(component, 'addComparableValue');
+    component.addComparableValue(param.index, param.value);
+
+    expect(component.addComparableValue).toHaveBeenCalledWith(0, '212');
+  });
+
+  it('should get data', () => {
+    spyOn(component, 'getData');
+    component.getData();
+
+    expect(component.getData).toHaveBeenCalled();
+  });
+
+  it('should get player wins', () => {
+    const param: number = 1;
+
+    spyOn(component, 'getPlayerWins');
+    component.getPlayerWins(param);
+
+    expect(component.getPlayerWins).toHaveBeenCalledWith(1);
+    expect(component.getPlayerWins).toBeTruthy();
+  });
+
+  it('should set if card is loaded', () => {
+    const param: boolean = true;
+
+    spyOn(component, 'isCardLoaded');
+    component.isCardLoaded(param);
+
+    expect(component.isCardLoaded).toHaveBeenCalledWith(true);
   });
 
 });

@@ -50,12 +50,12 @@ describe('BattlefieldContainerComponent', () => {
     const spy = spyOn(component, "setResource");
 
     component.ngOnInit();
-    
+
     expect(spy).toHaveBeenCalled();
   });
 
   it('should enable select', () => {
-    const param: boolean =  true;
+    const param: boolean = true;
 
     spyOn(component, 'enableSelect');
     component.enableSelect(param);
