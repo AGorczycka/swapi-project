@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { SingleCardComponent } from './singe-card.component';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
@@ -10,8 +9,6 @@ import { By } from '@angular/platform-browser';
 describe('SingleCardComponent', () => {
   let component: SingleCardComponent;
   let fixture: ComponentFixture<SingleCardComponent>;
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,9 +26,6 @@ describe('SingleCardComponent', () => {
     fixture = TestBed.createComponent(SingleCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should create', () => {

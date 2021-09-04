@@ -13,8 +13,8 @@ import { LayoutModule } from './features/layout/layout.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     HttpClientModule,
     LayoutModule
   ],

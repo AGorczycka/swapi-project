@@ -1,6 +1,5 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { CardsContainerComponent } from './cards-container.component';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
@@ -9,8 +8,6 @@ import { By } from '@angular/platform-browser';
 describe('BattlefieldContainerComponent', () => {
   let component: CardsContainerComponent;
   let fixture: ComponentFixture<CardsContainerComponent>;
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,9 +24,6 @@ describe('BattlefieldContainerComponent', () => {
     fixture = TestBed.createComponent(CardsContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should create', () => {
