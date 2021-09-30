@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from "rxjs";
 
-import { IApiDataPage } from 'src/app/models/IApiDataPage';
-import { IPerson } from 'src/app/models/IPerson';
-import { IPlanet } from 'src/app/models/IPlanet';
-import { ISpecies } from 'src/app/models/ISpecies';
+import { IApiDataPage } from "src/app/models/IApiDataPage";
+import { IPerson } from "src/app/models/IPerson";
+import { IPlanet } from "src/app/models/IPlanet";
+import { ISpecies } from "src/app/models/ISpecies";
 
 type ApiData = IPerson | IPlanet | ISpecies;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BattlefieldContainerService {
-  baseUrl: string = 'https://swapi.dev/api';
+  baseUrl = "https://swapi.dev/api";
 
   resourceSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 

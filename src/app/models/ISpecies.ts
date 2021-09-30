@@ -1,5 +1,5 @@
 export interface ISpecies {
-  name: string; 
+  name: string;
   classification: string;
   designation: string;
   average_height: string;

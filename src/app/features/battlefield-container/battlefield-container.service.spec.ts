@@ -1,19 +1,22 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed, waitForAsync } from "@angular/core/testing";
 
-import { BattlefieldContainerService } from './battlefield-container.service';
-import { IPerson } from 'src/app/models/IPerson';
-import { IPlanet } from 'src/app/models/IPlanet';
-import { ISpecies } from 'src/app/models/ISpecies';
-import { IApiDataPage } from 'src/app/models/IApiDataPage';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { BattlefieldContainerService } from "./battlefield-container.service";
+import { IPerson } from "src/app/models/IPerson";
+import { IPlanet } from "src/app/models/IPlanet";
+import { ISpecies } from "src/app/models/ISpecies";
+import { IApiDataPage } from "src/app/models/IApiDataPage";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
 type ApiData = IPerson | IPlanet | ISpecies;
 
-describe('BattlefieldContainerService', () => {
+describe("BattlefieldContainerService", () => {
   let service: BattlefieldContainerService;
   let httpMock: HttpTestingController;
 
-  const dataSource = 'people';
+  const dataSource = "people";
   const dataId = 1;
 
   const mockGetData: ApiData = {
@@ -36,60 +39,66 @@ describe('BattlefieldContainerService', () => {
   };
 
   beforeEach(() => {
-      TestBed.configureTestingModule({
-          imports: [ HttpClientTestingModule ],
-          providers: [ BattlefieldContainerService ]
-      });
-      service = TestBed.inject(BattlefieldContainerService);
-      httpMock = TestBed.inject(HttpTestingController);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [BattlefieldContainerService],
+    });
+    service = TestBed.inject(BattlefieldContainerService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it('should be able to retrieve data from the API via GET', () => {
-    service.getData(dataSource, dataId).subscribe(data => {
-        expect(data).toEqual(mockGetData);
+  it("should be able to retrieve data from the API via GET", () => {
+    service.getData(dataSource, dataId).subscribe((data) => {
+      expect(data).toEqual(mockGetData);
     });
 
-    const request = httpMock.expectOne( `${service.baseUrl}/${dataSource}/${dataId}` );
+    const request = httpMock.expectOne(
+      `${service.baseUrl}/${dataSource}/${dataId}`
+    );
 
-    expect(request.request.method).toBe('GET');
+    expect(request.request.method).toBe("GET");
 
     request.flush(mockGetData);
   });
 
-  it('should throw getData error',
+  it(
+    "should throw getData error",
     waitForAsync(() => {
-      const request = httpMock.expectNone( `${service.baseUrl}/${dataSource}/900` );
+      const request = httpMock.expectNone(
+        `${service.baseUrl}/${dataSource}/900`
+      );
 
       expect(request).toBeFalsy();
     })
   );
 
-  it('should be able to retrieve data count from the API via GET', () => {
+  it("should be able to retrieve data count from the API via GET", () => {
     const mockGetDataCount: IApiDataPage = {
       count: 1,
       next: "Test next page",
       previous: "Test previous page",
-      results: [ mockGetData ]
+      results: [mockGetData],
     };
 
-    service.getDataCount('people').subscribe(data => {
-        expect(data).toEqual(mockGetDataCount);
+    service.getDataCount("people").subscribe((data) => {
+      expect(data).toEqual(mockGetDataCount);
     });
 
-    const request = httpMock.expectOne( `${service.baseUrl}/${dataSource}` );
+    const request = httpMock.expectOne(`${service.baseUrl}/${dataSource}`);
 
-    expect(request.request.method).toBe('GET');
-    
+    expect(request.request.method).toBe("GET");
+
     request.flush(mockGetDataCount);
   });
 
-  it('should throw getDataCount error',
+  it(
+    "should throw getDataCount error",
     waitForAsync(() => {
-      const request = httpMock.expectNone( `${service.baseUrl}/test` );
+      const request = httpMock.expectNone(`${service.baseUrl}/test`);
       expect(request).toBeFalsy();
     })
   );
@@ -97,5 +106,4 @@ describe('BattlefieldContainerService', () => {
   afterEach(() => {
     httpMock.verify();
   });
-
 });

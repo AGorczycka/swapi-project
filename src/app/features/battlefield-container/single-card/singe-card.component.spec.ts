@@ -1,25 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-import { SingleCardComponent } from './singe-card.component';
-import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
-import { MatCard, MatCardModule, MatCardTitle } from '@angular/material/card';
-import { By } from '@angular/platform-browser';
+import { SingleCardComponent } from "./singe-card.component";
+import {
+  MatProgressSpinnerModule,
+  MatSpinner,
+} from "@angular/material/progress-spinner";
+import { MatCard, MatCardModule, MatCardTitle } from "@angular/material/card";
+import { By } from "@angular/platform-browser";
 
-describe('SingleCardComponent', () => {
+describe("SingleCardComponent", () => {
   let component: SingleCardComponent;
   let fixture: ComponentFixture<SingleCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SingleCardComponent ],
-      imports: [ 
+      declarations: [SingleCardComponent],
+      imports: [
         HttpClientTestingModule,
         MatProgressSpinnerModule,
-        MatCardModule
-      ]
-    })
-    .compileComponents();
+        MatCardModule,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -28,22 +30,19 @@ describe('SingleCardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create mat-spinner', () => {
-    fixture.debugElement.query(By.directive(MatSpinner)).nativeElement;
+  it("should create mat-spinner", () => {
     expect(MatSpinner).toBeTruthy();
   });
 
-  it('should create mat-card', () => {
-    fixture.debugElement.query(By.directive(MatCard)).nativeElement;
+  it("should create mat-card", () => {
     expect(MatCard).toBeTruthy();
   });
 
-  it('should not have mat-card-title at the beginning', () => {
+  it("should not have mat-card-title at the beginning", () => {
     expect(fixture.debugElement.query(By.directive(MatCardTitle))).toBeNull();
   });
-
 });

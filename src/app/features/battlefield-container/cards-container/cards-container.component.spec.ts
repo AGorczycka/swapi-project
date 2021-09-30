@@ -12,7 +12,7 @@ describe('BattlefieldContainerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CardsContainerComponent ],
-      imports: [ 
+      imports: [
         HttpClientTestingModule,
         MatProgressSpinnerModule
       ]
@@ -31,7 +31,6 @@ describe('BattlefieldContainerComponent', () => {
   });
 
   it('should create mat-spinner', () => {
-    fixture.debugElement.query(By.directive(MatSpinner)).nativeElement;
     expect(MatSpinner).toBeTruthy();
   });
 
@@ -47,7 +46,6 @@ describe('BattlefieldContainerComponent', () => {
     const spy = spyOn(component, "getData");
 
     component.ngOnInit();
-    
     expect(spy).toHaveBeenCalled();
   });
 
@@ -68,7 +66,7 @@ describe('BattlefieldContainerComponent', () => {
   });
 
   it('should get player wins', () => {
-    const param: number = 1;
+    const param = 1;
 
     spyOn(component, 'getPlayerWins');
     component.getPlayerWins(param);
@@ -78,7 +76,7 @@ describe('BattlefieldContainerComponent', () => {
   });
 
   it('should set if card is loaded', () => {
-    const param: boolean = true;
+    const param = true;
 
     spyOn(component, 'isCardLoaded');
     component.isCardLoaded(param);
